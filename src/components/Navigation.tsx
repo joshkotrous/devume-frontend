@@ -1,19 +1,19 @@
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
-
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Button} from "@nextui-org/react";
+import { Link } from "react-router-dom";
 const Navigation = () => {
   return (
     <Navbar>
     <NavbarBrand>
-      <a href='/'>
+      <Link to='/'>
         <h1 className="font-bold text-xl">Devumé</h1>
-      </a>
+      </Link>
     </NavbarBrand>
     <NavbarContent justify="end">
       <NavbarItem className="lg:flex">
-        <Link href="/login">Login</Link>
+        <Link color="primary" to="/login">Login</Link>
       </NavbarItem>
       <NavbarItem>
-        <Button as={Link} color="primary" href="/sign-up" variant="flat">
+        <Button as={Link} color="primary" to="/sign-up" variant="flat">
           Sign Up
         </Button>
       </NavbarItem>

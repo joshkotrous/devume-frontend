@@ -1,6 +1,6 @@
 // import Cookies from "js-cookie";
 
-export async function Auth(username: string, password: string) {
+export async function Auth(username, password) {
     const request = {
         username: username,
         password: password,
@@ -12,16 +12,29 @@ export async function Auth(username: string, password: string) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "x-api-key": import.meta.env.VITE_REACT_API_API_KEY
+              "X-Api-Key": import.meta.env.VITE_REACT_API_API_KEY
             },
             body: JSON.stringify(request),
             cache: "default",
           }
         );
         const data = await response.json();
-        console.log(data);
+        
+        if (response.status != 200) {
+          throw new Error(data.message); 
+        }
+        console.log(data)
+        return {
+          error: false,
+          message: data.message
+        }
       } catch (error) {
-        console.log(error)
+        console.log(error.message);
+        return {
+          error: true,
+          message: error.message
+        }
       } finally {
+        
       }
 }
