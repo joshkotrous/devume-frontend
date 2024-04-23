@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import {Card, CardHeader, CardBody, Button, Input, user} from "@nextui-org/react";
-import {Auth} from '../hooks/Auth'
+import {Card, CardHeader, CardBody, Button, Input} from "@nextui-org/react";
+import {UserLogin} from '../hooks/Auth'
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -36,7 +36,7 @@ const Login = () => {
 
   const login = async () => {
     setIsLoading(true) 
-    const response = await Auth(username, password)
+    const response = await Login(username, password)
     setMessage(response.message)
     setLoginError(response.error)
     setIsLoading(false)
@@ -66,9 +66,9 @@ const Login = () => {
         onChange={handleChange}
       />
   
-      <Button         value={inputValue}
+      <Button className="mt-4" value={inputValue}
         onChange={handleInputChange}
-        onKeyDown={handleKeyPress} id="login" isDisabled={username === "" && password === "" || !username.includes("@")} isLoading={isLoading} color='primary' onClick={async () => {
+        onKeyDown={handleKeyPress} id="login" isDisabled={username === "" || password === "" || !username.includes("@")} isLoading={isLoading} color='primary' onClick={async () => {
         login()
         }}>
           Login

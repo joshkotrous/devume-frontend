@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Card, CardHeader, CardBody, Button, Input, user} from "@nextui-org/react";
-import {Auth} from '../hooks/Auth'
+import {UserLogin} from '../hooks/Auth'
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
@@ -61,8 +61,8 @@ const SignUp = () => {
         <h2 className="font-bold text-large">Sign Up</h2>
       </CardHeader>
       <CardBody className="overflow-visible py-2 flex-col gap-2">
-      <Input type="first_name"  variant="bordered" label="First Name" placeholder="Enter your first name" name="first_name" value={username} onChange={handleChange}/>
-      <Input type="last_name"  variant="bordered" label="Last Name" placeholder="Enter your last name" name="last_name" value={username} onChange={handleChange}/>
+      <Input type="first_name"  variant="bordered" label="First Name" placeholder="Enter your first name" name="first_name" value={firstName} onChange={handleChange}/>
+      <Input type="last_name"  variant="bordered" label="Last Name" placeholder="Enter your last name" name="last_name" value={lastName} onChange={handleChange}/>
 
       <Input type="email" variant="bordered" label="Email" placeholder="Enter your email" name="username" value={username} onChange={handleChange}/>
       <Input
@@ -74,9 +74,9 @@ const SignUp = () => {
         value={password}
         onChange={handleChange}
       />
-      <Button         value={inputValue}
+      <Button className="mt-4" value={inputValue}
         onChange={handleInputChange}
-        onKeyDown={handleKeyPress} id="login" isDisabled={username === "" && password === "" || !username.includes("@")} isLoading={isLoading} color='primary' onClick={async () => {
+        onKeyDown={handleKeyPress} id="login" isDisabled={username === "" || password === "" || firstName === "" || lastName === "" || !username.includes("@")} isLoading={isLoading} color='primary' onClick={async () => {
         login()
         }}>
           Sign Up

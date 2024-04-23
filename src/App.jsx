@@ -11,6 +11,7 @@ import ConsoleOutput from './components/ConsoleOutput';
 function App() {
   return (
     <NextUIProvider>
+      <main className="h-screen dark text-foreground bg-background">
         <Router>
         <Navigation />
           <Routes>
@@ -22,6 +23,7 @@ function App() {
           </Routes>
           {import.meta.env.VITE_REACT_APP_DEV_MODE === "true" && <ConsoleOutput />}
         </Router>
+        </main>
         </NextUIProvider>
 
 

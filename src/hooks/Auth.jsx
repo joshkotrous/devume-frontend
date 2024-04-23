@@ -1,6 +1,6 @@
 // import Cookies from "js-cookie";
 
-export async function Auth(username, password) {
+export async function UserLogin(username, password) {
     const request = {
         username: username,
         password: password,

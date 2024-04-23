@@ -903,6 +903,10 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1085,6 +1089,14 @@ video {
 
 .h-\[90vh\] {
   height: 90vh;
+}
+
+.h-\[100ch\] {
+  height: 100ch;
+}
+
+.h-\[100vh\] {
+  height: 100vh;
 }
 
 .max-h-64 {
