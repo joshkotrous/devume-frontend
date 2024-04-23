@@ -3,9 +3,11 @@ import {Card, CardHeader, CardBody, Button, Input, user} from "@nextui-org/react
 import {Auth} from '../hooks/Auth'
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState()
   const [loginError, setLoginError] = useState(false)
@@ -30,6 +32,10 @@ const Login = () => {
       setUsername(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "first_name") {
+      setFirstName(value);
+    } else if (name === "last_name") {
+      setLastName(value);
     }
     setMessage("")
   };
@@ -52,10 +58,13 @@ const Login = () => {
       <Card className="py-4 h-fit">
 
       <CardHeader className="pt-2 px-4 flex-col items-center">
-        <h2 className="font-bold text-large">Login</h2>
+        <h2 className="font-bold text-large">Sign Up</h2>
       </CardHeader>
       <CardBody className="overflow-visible py-2 flex-col gap-2">
-      <Input type="email"  variant="bordered" label="Email" placeholder="Enter your email" name="username" value={username} onChange={handleChange}/>
+      <Input type="first_name"  variant="bordered" label="First Name" placeholder="Enter your first name" name="first_name" value={username} onChange={handleChange}/>
+      <Input type="last_name"  variant="bordered" label="Last Name" placeholder="Enter your last name" name="last_name" value={username} onChange={handleChange}/>
+
+      <Input type="email" variant="bordered" label="Email" placeholder="Enter your email" name="username" value={username} onChange={handleChange}/>
       <Input
         label="Password"
         variant="bordered"
@@ -65,13 +74,12 @@ const Login = () => {
         value={password}
         onChange={handleChange}
       />
-  
       <Button         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyPress} id="login" isDisabled={username === "" && password === "" || !username.includes("@")} isLoading={isLoading} color='primary' onClick={async () => {
         login()
         }}>
-          Login
+          Sign Up
       </Button>
       </CardBody>
     </Card>
@@ -85,4 +93,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SignUp

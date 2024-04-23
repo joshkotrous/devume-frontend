@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-const ConsoleOutput: React.FC = () => {
-  const [logs, setLogs] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+const ConsoleOutput = () => {
+  const [logs, setLogs] = useState([]);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const originalLog = console.log;
 
-    console.log = (...args: any[]) => {
+    console.log = (...args) => {
       originalLog(...args); // Call original console.log
       setLogs(prevLogs => [...prevLogs, args.map(arg => JSON.stringify(arg)).join(' ')]);
     };
