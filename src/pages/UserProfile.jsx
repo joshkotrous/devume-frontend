@@ -18,10 +18,17 @@ const UserProfile = () => {
     <div className="h-[90vh] max-w-[1024px] flex justify-center">
       <Card className="py-4">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-          <Avatar />
-          <h2>{username}</h2>
-          <p>{profileData.bio}</p>
-          <p>{profileData.birth_date}</p>
+          <Avatar className="mb-2 self-center" />
+          {profileData.user && profileData.profile ? (
+            <>
+              <p>
+                {profileData.user.first_name + " " + profileData.user.last_name}
+              </p>
+              <h2>{username}</h2>
+              <p>{profileData.profile.bio}</p>
+              <p>{profileData.profile.birth_date}</p>
+            </>
+          ) : null}
         </CardHeader>
         <CardBody className="overflow-visible py-2"></CardBody>
       </Card>
