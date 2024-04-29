@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export async function CreateUser(
-  firstName,
-  lastName,
-  email,
-  username,
-  password
+  firstName: string,
+  lastName: string,
+  email: string,
+  username: string,
+  password: string
 ) {
   const headers = {
     "Content-Type": "application/json", // Example header
@@ -30,7 +30,7 @@ export async function CreateUser(
     );
     console.log(response.data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       console.log("Error data:", error.response.data);
     }

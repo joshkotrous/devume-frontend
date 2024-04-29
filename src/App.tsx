@@ -11,10 +11,10 @@ import {
 import Navigation from "./components/Navigation";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import ConsoleOutput from "./components/ConsoleOutput";
+import ConsoleOutput from "./components/ConsoleOutput.jsx";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
-import UserProfile from "./pages/UserProfile";
+import UserProfile from "./pages/UserProfile.tsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

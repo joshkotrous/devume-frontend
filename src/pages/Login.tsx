@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { Card, CardHeader, CardBody, Button, Input } from "@nextui-org/react";
 import { UserLogin } from "../hooks/Auth";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
-const Login = ({ setIsAuthenticated }) => {
+interface LoginProps {
+  setIsAuthenticated: React.Dispatch<SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
   const navigateTo = useNavigate();
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
       // Trigger button click event
-      document.getElementById("login").click();
+      document.getElementById("login")!.click();
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     const { name, value } = event.target;
     if (name === "username") {
       setUsername(value);
@@ -34,7 +37,7 @@ const Login = ({ setIsAuthenticated }) => {
       const response = await UserLogin(username, password);
       setIsAuthenticated(true);
       navigateTo("/");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.response.data.error);
       setMessage(error.response.data.error);
     }

@@ -7,10 +7,10 @@ import {
   Input,
   user,
 } from "@nextui-org/react";
-import { CreateUser } from "../hooks/Users";
+import { CreateUser } from "../hooks/Users.tsx";
 import { useNavigate } from "react-router-dom";
-import { CreateProfile } from "../hooks/Profiles";
-import { UserLogin } from "../hooks/Auth";
+import { CreateProfile } from "../hooks/Profiles.tsx";
+import { UserLogin } from "../hooks/Auth.tsx";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -19,16 +19,16 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigateTo = useNavigate();
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event: any) => {
     if (event.keyCode === 13) {
-      document.getElementById("sign-up").click();
+      document.getElementById("sign-up")!.click();
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     const { name, value } = event.target;
     if (name === "username") {
       setUsername(value);
@@ -59,7 +59,7 @@ const SignUp = () => {
       await UserLogin(username, password);
       await CreateProfile();
       navigateTo("/");
-    } catch (error) {
+    } catch (error: any) {
       if ("username" in error.response.data) {
         console.log(error.response.data.username);
         setErrorMessage(error.response.data.username);

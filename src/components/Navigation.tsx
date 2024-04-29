@@ -11,7 +11,11 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-const Navigation = (props) => {
+import React from "react";
+interface NavigationProps {
+  isAuthenticated: boolean;
+}
+const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
   return (
     <Navbar>
       <NavbarBrand>
@@ -19,7 +23,7 @@ const Navigation = (props) => {
           <h1 className="font-bold text-xl">Devumé</h1>
         </Link>
       </NavbarBrand>
-      {props.isAuthenticated ? (
+      {isAuthenticated ? (
         <NavbarContent justify="end">
           <NavbarItem className="lg:flex">
             <Dropdown>

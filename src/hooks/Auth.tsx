@@ -1,7 +1,7 @@
-import Cookies from "js-cookie";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-export async function UserLogin(username, password) {
+export async function UserLogin(username: string, password: string) {
   const request = {
     username: username,
     password: password,
@@ -17,7 +17,7 @@ export async function UserLogin(username, password) {
     console.log(response.data);
     Cookies.set("token", response.data.token);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       console.log("Error data:", error.response.data);
     }

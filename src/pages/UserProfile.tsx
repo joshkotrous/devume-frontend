@@ -3,9 +3,20 @@ import { Card, CardHeader, CardBody, Avatar, Button } from "@nextui-org/react";
 import { GetProfile } from "../hooks/Profiles";
 import { useEffect, useState } from "react";
 
+interface ProfileData {
+  user: {
+    first_name: string;
+    last_name: string;
+  };
+  profile: { bio: string; birth_date: string };
+}
+
 const UserProfile = () => {
   const { username } = useParams();
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState<ProfileData>({
+    user: { first_name: "", last_name: "" },
+    profile: { bio: "", birth_date: "" },
+  });
 
   const getProfileData = async () => {
     const response = await GetProfile("dada9c9f-1a6b-4c5e-9e5d-20ec613a13bb");

@@ -18,7 +18,7 @@ export async function CreateProfile() {
     );
     console.log(response.data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       console.log("Error data:", error.response.data);
     }
