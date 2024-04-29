@@ -26,7 +26,7 @@ export async function CreateProfile() {
   }
 }
 
-export async function GetProfile(username) {
+export async function GetProfile(username: string) {
   try {
     const headers = {
       "Content-Type": "application/json", // Example header
@@ -41,7 +41,7 @@ export async function GetProfile(username) {
     );
     console.log(response.data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       console.log("Error data:", error.response.data);
     }
