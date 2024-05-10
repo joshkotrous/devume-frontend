@@ -53,6 +53,11 @@ const UserProfile = () => {
   useEffect(() => {
     getProfileData();
   }, []);
+
+  useEffect(() => {
+    console.log(skillList);
+  }, [skillList]);
+
   return (
     <div className="h-[90vh] flex justify-center">
       <div className="h-full w-full flex max-w-[1024px]">
@@ -73,11 +78,11 @@ const UserProfile = () => {
               </>
             ) : null}
           </CardHeader>
-          <div className="relative flex w-full justify-evenly items-center flex-wrap mt-2">
+          <div className="flex w-full space-x-2 items-center justify-center flex-wrap mt-2 space-y-3">
             {skillList &&
               skillList.map((skill, index) => (
                 <p
-                  className="bg-white/20 text-center w-fit p-1 mb-2 text-xs rounded-md"
+                  className="bg-white/20 text-center p-1 w-fit text-xs rounded-md"
                   key={index}
                 >
                   {skill}
@@ -85,10 +90,65 @@ const UserProfile = () => {
               ))}
           </div>
         </Card>
-        <Card className="h-full w-full py-4">
-          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start"></CardHeader>
-          <CardBody className="overflow-visible py-2"></CardBody>
-        </Card>
+        <div className="w-full flex-col h-full gap-2">
+          <h2 className="mb-2 text-3xl font-bold">Work Experience</h2>
+          <div className="flex-col space-y-4 h-full">
+            <Card className="h-fit w-full py-4">
+              <CardHeader className="pb-0 pt-2 px-4 flex items-center">
+                <Avatar></Avatar>
+                <h3 className="text-2xl font-semibold ml-2">Apple</h3>
+              </CardHeader>
+              <CardBody className="overflow-visible py-2">
+                <div className="flex-col space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-xl">
+                        Software Engineer
+                      </h4>
+                      <p>12/1-5/1</p>
+                    </div>
+                    <p>test descriptions</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-xl">
+                        Software Engineer
+                      </h4>
+                      <p>12/1-5/1</p>
+                    </div>
+                    <p>test descriptions</p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+            <Card className="h-fit w-full py-4">
+              <CardHeader className="pb-0 pt-2 px-4 flex items-center">
+                <Avatar></Avatar>
+                <h3 className="text-2xl font-semibold ml-2">Apple</h3>
+              </CardHeader>
+              <CardBody className="overflow-visible py-2">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-semibold text-xl">Software Engineer</h4>
+                  <p>12/1-5/1</p>
+                </div>
+                <p>test descriptions</p>
+              </CardBody>
+            </Card>
+            <Card className="h-fit w-full py-4">
+              <CardHeader className="pb-0 pt-2 px-4 flex items-center">
+                <Avatar></Avatar>
+                <h3 className="text-2xl font-semibold ml-2">Apple</h3>
+              </CardHeader>
+              <CardBody className="overflow-visible py-2">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-semibold text-xl">Software Engineer</h4>
+                  <p>12/1-5/1</p>
+                </div>
+                <p>test descriptions</p>
+              </CardBody>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
