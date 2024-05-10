@@ -56,7 +56,7 @@ const UserProfile = () => {
   return (
     <div className="h-[90vh] flex justify-center">
       <div className="h-full w-full flex max-w-[1024px]">
-        <Card className="h-fit w-1/3 mr-4 py-4">
+        <Card className="h-fit w-fit mr-4 py-4">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <Avatar className="mb-2 self-center" />
             <Button className="mb-2 self-center">Edit Profile</Button>
@@ -73,16 +73,17 @@ const UserProfile = () => {
               </>
             ) : null}
           </CardHeader>
-          <CardBody className="">
-            <div className="flex justify-between">
-              {skillList &&
-                skillList.map((skill, index) => (
-                  <p className="bg-white/20 text-center w-fit p-1" key={index}>
-                    {skill}
-                  </p>
-                ))}
-            </div>
-          </CardBody>
+          <div className="relative flex w-full justify-evenly items-center flex-wrap mt-2">
+            {skillList &&
+              skillList.map((skill, index) => (
+                <p
+                  className="bg-white/20 text-center w-fit p-1 mb-2 text-xs rounded-md"
+                  key={index}
+                >
+                  {skill}
+                </p>
+              ))}
+          </div>
         </Card>
         <Card className="h-full w-full py-4">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start"></CardHeader>
