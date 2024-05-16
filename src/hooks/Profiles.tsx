@@ -54,7 +54,7 @@ export async function GetAllProfiles() {
   try {
     const headers = {
       "Content-Type": "application/json", // Example header
-      Authorization: "Bearer " + Cookies.get("token"), // Example header
+      "x-api-key": import.meta.env.VITE_REACT_API_API_KEY,
     };
     const response = await axios.get(
       import.meta.env.VITE_REACT_APP_API_BASE_URL + "/profiles/",

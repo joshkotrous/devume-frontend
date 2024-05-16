@@ -111,7 +111,7 @@ const ExploreProfiles = () => {
                   navigateTo("/" + profile.uuid);
                 }}
                 key={index}
-                className="w-40 h-40 text-left pb-4 -space-y-4"
+                className="w-40 h-40 text-left pb-4 -space-y-4 hover:scale-90"
               >
                 <CardHeader className="flex-col items-start">
                   <span className="font-bold">

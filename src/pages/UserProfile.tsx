@@ -10,6 +10,7 @@ import {
 import { GetProfile } from "../hooks/Profiles";
 import { useEffect, useState } from "react";
 import { getSkill } from "../hooks/Skills";
+import { Link } from "react-router-dom";
 interface Skill {
   id: number;
   name: string;
@@ -69,19 +70,25 @@ const UserProfile = () => {
   return (
     <div className="h-full flex justify-center">
       <Card className="h-fit w-1/4 mr-4 p-4">
-        <CardHeader className="pb-0 flex-col gap-4 text-cente w-full text-center">
+        <CardHeader className="pb-0 flex-col gap-4 text-cente w-full text-center mb-2">
           <Image src="/IMG_4907.JPG" className="rounded-full " />
-          <Button className="mb-2 m-auto">Edit Profile</Button>
+          {/* <Button className="mb-2 m-auto">Edit Profile</Button> */}
         </CardHeader>
-        <CardBody className="w-fit">
+        <CardBody className="w-fit p-1 mt-1">
           {profileData.user && profileData.profile ? (
             <>
-              <p>
+              <p className="font-bold text-xl">
                 {profileData.user.first_name + " " + profileData.user.last_name}
               </p>
-              <h2>{profileData.user.username}</h2>
-              <p>{profileData.profile.bio}</p>
+              <h2 className="text-lg">{profileData.user.username}</h2>
+              <p className="mt-2 font-light">{profileData.profile.bio}</p>
               {/* <p>{profileData.profile.birth_date}</p> */}
+              <Link className="text-sm mt-2" to="">
+                🔗 Github
+              </Link>
+              <Link className="text-sm mb-1" to="">
+                🔗 Twitter
+              </Link>
             </>
           ) : null}
         </CardBody>

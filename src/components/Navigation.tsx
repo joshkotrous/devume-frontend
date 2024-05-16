@@ -29,7 +29,7 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
       {isAuthenticated ? (
         <NavbarContent justify="end">
           <NavbarItem className="lg:flex">
-            <Dropdown>
+            <Dropdown className="bg-neutral-900 text-white">
               <DropdownTrigger>
                 <Avatar isBordered />
               </DropdownTrigger>
@@ -45,7 +45,9 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
                 }}
                 aria-label="Action event example"
               >
-                <DropdownItem key="my-profile">My Profile</DropdownItem>
+                <DropdownItem className="hover:bg-neutral-800" key="my-profile">
+                  My Profile
+                </DropdownItem>
 
                 <DropdownItem key="sign-out">Sign Out</DropdownItem>
               </DropdownMenu>

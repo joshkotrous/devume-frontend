@@ -17,9 +17,15 @@ export async function UserLogin(username: string, password: string) {
     );
     console.log(response.data);
     Cookies.set("token", response.data.token);
-    const profile = await GetProfile(response.data.user_id);
-    console.log(profile);
-    localStorage.setItem("profileId", profile.uuid);
+    let profile;
+    try {
+      profile = await GetProfile(response.data.user_id);
+      console.log(profile);
+      localStorage.setItem("profileId", profile.uuid);
+    } catch (error) {
+      console.log(error);
+    }
+
     return response.data;
   } catch (error: any) {
     if (error.response) {
