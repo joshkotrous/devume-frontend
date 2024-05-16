@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { GetProfile } from "./Profiles";
 
 export async function UserLogin(username: string, password: string) {
   const request = {
@@ -16,6 +17,9 @@ export async function UserLogin(username: string, password: string) {
     );
     console.log(response.data);
     Cookies.set("token", response.data.token);
+    const profile = await GetProfile(response.data.user_id);
+    console.log(profile);
+    localStorage.setItem("profileId", profile.uuid);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -23,4 +27,8 @@ export async function UserLogin(username: string, password: string) {
     }
     throw error;
   }
+}
+
+export async function SignOut() {
+  Cookies.remove("token");
 }

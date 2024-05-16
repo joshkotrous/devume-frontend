@@ -69,8 +69,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-[90vh] flex items-center justify-center">
-      <div className="w-1/2 max-w-[400px] text-center flex-col items-center">
+    <div className="h-[90vh] flex items-center justify-center w-[300px]">
+      <div className="w-full text-center flex-col items-center">
         <Card className="py-4 h-fit">
           <CardHeader className="pt-2 px-4 flex-col items-center">
             <h2 className="font-bold text-large">Sign Up</h2>

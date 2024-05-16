@@ -26,14 +26,15 @@ export async function CreateProfile() {
   }
 }
 
-export async function GetProfile(username: string) {
+export async function GetProfile(userId: any) {
   try {
     const headers = {
       "Content-Type": "application/json", // Example header
-      Authorization: "Bearer " + Cookies.get("token"), // Example header
+      // Authorization: "Bearer " + Cookies.get("token"), // Example header
+      "x-api-key": import.meta.env.VITE_REACT_API_API_KEY,
     };
     const response = await axios.get(
-      import.meta.env.VITE_REACT_APP_API_BASE_URL + "/profiles/" + username,
+      import.meta.env.VITE_REACT_APP_API_BASE_URL + "/profiles/" + userId,
       {
         headers: headers,
         // withCredentials: true // Include cookies in the request

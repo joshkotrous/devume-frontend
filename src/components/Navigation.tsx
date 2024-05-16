@@ -12,10 +12,13 @@ import {
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import React from "react";
+import { SignOut } from "../hooks/Auth";
+import { useNavigate } from "react-router-dom";
 interface NavigationProps {
   isAuthenticated: boolean;
 }
 const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
+  const navigateTo = useNavigate();
   return (
     <Navbar>
       <NavbarBrand>
@@ -31,9 +34,13 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
                 <Avatar isBordered />
               </DropdownTrigger>
               <DropdownMenu
-                onAction={(key) => {
+                onAction={async (key) => {
                   if (key === "sign-out") {
-                    // SignOut();
+                    await SignOut();
+                    navigateTo(0);
+                  }
+                  if (key === "my-profile") {
+                    navigateTo("/" + localStorage.getItem("profileId"));
                   }
                 }}
                 aria-label="Action event example"

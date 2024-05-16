@@ -31,19 +31,21 @@ function App() {
       <main className="h-screen dark text-foreground bg-background">
         <Router>
           <Navigation isAuthenticated={isAuthenticated} />
-          <Routes>
-            <Route path="/" element={<ExploreProfiles />} />
+          <div className="h-full flex justify-center">
+            <div className="h-full max-w-[1024px] overflow-auto p-4">
+              {" "}
+              <Routes>
+                <Route path="/" element={<ExploreProfiles />} />
 
-            <Route
-              path="/login"
-              element={<Login setIsAuthenticated={setIsAuthenticated} />}
-            />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/:username" element={<UserProfile />} />
-          </Routes>
-          {import.meta.env.VITE_REACT_APP_DEV_MODE === "true" && (
-            <ConsoleOutput />
-          )}
+                <Route
+                  path="/login"
+                  element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/:uuid" element={<UserProfile />} />
+              </Routes>
+            </div>
+          </div>
         </Router>
       </main>
     </NextUIProvider>
