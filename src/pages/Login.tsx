@@ -2,7 +2,7 @@ import { useState, useEffect, SetStateAction } from "react";
 import { Card, CardHeader, CardBody, Button, Input } from "@nextui-org/react";
 import { UserLogin } from "../hooks/Auth";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 interface LoginProps {
   setIsAuthenticated: React.Dispatch<SetStateAction<boolean>>;
 }
@@ -46,7 +46,12 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
 
   return (
     <div className="h-[90vh] flex items-center justify-center w-[300px]">
-      <div className="w-full text-center flex-col items-center">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+        className="w-full text-center flex-col items-center"
+      >
         <Card className="py-4 h-fit ">
           <CardHeader className="pt-2 px-4 flex-col items-center">
             <h2 className="font-bold text-large">Login</h2>
@@ -93,7 +98,7 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
         ) : (
           <p className="py-4">{message}</p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

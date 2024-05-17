@@ -32,8 +32,7 @@ function App() {
         <Router>
           <Navigation isAuthenticated={isAuthenticated} />
           <div className="h-full flex justify-center">
-            <div className="h-full max-w-[1024px] overflow-auto p-4">
-              {" "}
+            <div className="max-w-[1024px] overflow-auto p-4">
               <Routes>
                 <Route path="/" element={<ExploreProfiles />} />
 

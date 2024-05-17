@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { IoSearch } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 interface Profile {
   bio: string;
@@ -21,7 +22,19 @@ const ExploreProfiles = () => {
   const [filteredData, setFilteredData] = useState<Array<Profile>>();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const navigateTo = useNavigate();
-
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.01, // Adjust this value to control the delay between each child's animation
+      },
+    },
+  };
+  const childVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     if (name === "search") {
@@ -64,7 +77,7 @@ const ExploreProfiles = () => {
   }, []);
   return (
     <>
-      <div className="w-fit mb-4 overflow-auto">
+      <div className="w-screen mb-4 overflow-auto">
         <Input
           label="Search"
           isClearable
@@ -88,6 +101,7 @@ const ExploreProfiles = () => {
               "group-data-[focus=true]:bg-default-200/50",
               "dark:group-data-[focus=true]:bg-default/60",
               "!cursor-text",
+              "w-[200px]",
             ],
           }}
           placeholder="Type to search..."
@@ -101,31 +115,40 @@ const ExploreProfiles = () => {
           }}
         />
       </div>
-      <div className="h-fit flex flex-wrap gap-4 justify-center ">
-        {filteredData &&
-          filteredData.map((profile: Profile, index: number) => {
-            return (
-              <Card
-                isPressable
-                onClick={() => {
-                  navigateTo("/" + profile.uuid);
-                }}
-                key={index}
-                className="w-40 h-40 text-left pb-4 -space-y-4 hover:scale-90"
-              >
-                <CardHeader className="flex-col items-start">
-                  <span className="font-bold">
-                    {profile.user.first_name} {profile.user.last_name}
-                  </span>
-                  <div>{profile.user.username}</div>
-                </CardHeader>
-                <CardBody className="text-sm font-light overflow-hidden">
-                  {profile.bio}
-                </CardBody>
-              </Card>
-            );
-          })}
-      </div>
+      {filteredData && (
+        <motion.div
+          className="h-fit flex flex-wrap gap-4 justify-center container pb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {filteredData &&
+            filteredData.map((profile: Profile, index: number) => {
+              return (
+                <motion.div className="item" variants={childVariants}>
+                  <Card
+                    isPressable
+                    onClick={() => {
+                      navigateTo("/" + profile.uuid);
+                    }}
+                    key={index}
+                    className="animate-fade w-40 h-40 text-left pb-4 -space-y-4 hover:scale-90"
+                  >
+                    <CardHeader className="flex-col items-start">
+                      <span className="font-bold">
+                        {profile.user.first_name} {profile.user.last_name}
+                      </span>
+                      <div>{profile.user.username}</div>
+                    </CardHeader>
+                    <CardBody className="text-sm font-light overflow-hidden">
+                      {profile.bio}
+                    </CardBody>
+                  </Card>
+                </motion.div>
+              );
+            })}
+        </motion.div>
+      )}
     </>
   );
 };

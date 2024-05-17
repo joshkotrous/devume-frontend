@@ -11,7 +11,7 @@ import { CreateUser } from "../hooks/Users.tsx";
 import { useNavigate } from "react-router-dom";
 import { CreateProfile } from "../hooks/Profiles.tsx";
 import { UserLogin } from "../hooks/Auth.tsx";
-
+import { motion } from "framer-motion";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -70,7 +70,12 @@ const SignUp = () => {
 
   return (
     <div className="h-[90vh] flex items-center justify-center w-[300px]">
-      <div className="w-full text-center flex-col items-center">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+        className="w-full text-center flex-col items-center"
+      >
         <Card className="py-4 h-fit">
           <CardHeader className="pt-2 px-4 flex-col items-center">
             <h2 className="font-bold text-large">Sign Up</h2>
@@ -149,7 +154,7 @@ const SignUp = () => {
         ) : (
           <p className="py-4">{errorMessage}</p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };
