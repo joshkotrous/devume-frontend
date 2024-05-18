@@ -423,7 +423,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           skillList.map((skill: any, index: number) => (
             <motion.div
               variants={childVariants}
-              className="item bg-white/20 text-center p-1 w-fit h-6 text-xs rounded-md mb-2 flex overflow-hidden"
+              className="item bg-white/20 text-center p-1 w-fit h-7 text-xs rounded-md mb-2 flex overflow-hidden items-center"
               key={index}
             >
               {skill}
@@ -459,35 +459,33 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           </>
         )}
         {editMode && (
-          <>
-            <Autocomplete
-              onSelectionChange={(event: any) => {
-                handleSelect(event);
-              }}
-              popoverProps={{
-                placement: "bottom",
-                shouldFlip: false,
-                classNames: {
-                  content:
-                    "h-[100px] w-[150px] rounded-xl overflow-hidden bg-neutral-800 text-white",
-                },
-              }}
-              placeholder="+ Add Skill"
-              className="scale-75 mb-1 w-[120px] h-9"
-              aria-label="add skill"
-            >
-              {allSkills &&
-                allSkills.map((skill: any, index: number) => (
-                  <AutocompleteItem
-                    textValue={skill.name}
-                    key={index}
-                    value={skill.name}
-                  >
-                    {skill.name}
-                  </AutocompleteItem>
-                ))}
-            </Autocomplete>
-          </>
+          <Autocomplete
+            onSelectionChange={(event: any) => {
+              handleSelect(event);
+            }}
+            popoverProps={{
+              placement: "bottom",
+              shouldFlip: false,
+              classNames: {
+                content:
+                  "h-[125px] w-[150px] rounded-xl overflow-hidden bg-neutral-800 text-white",
+              },
+            }}
+            placeholder="+ Add Skill"
+            className="scale-75 relative mb-1 w-[120px] -mt-1 "
+            aria-label="add skill"
+          >
+            {allSkills &&
+              allSkills.map((skill: any, index: number) => (
+                <AutocompleteItem
+                  textValue={skill.name}
+                  key={index}
+                  value={skill.name}
+                >
+                  {skill.name}
+                </AutocompleteItem>
+              ))}
+          </Autocomplete>
         )}
       </motion.div>
     </Card>
