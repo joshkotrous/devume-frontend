@@ -131,24 +131,27 @@ const ExploreProfiles = () => {
           {filteredData &&
             filteredData.map((profile: Profile, index: number) => {
               return (
-                <motion.div className="item" variants={childVariants}>
+                <motion.div
+                  className="item"
+                  key={index}
+                  variants={childVariants}
+                >
                   <Card
                     isPressable
                     onClick={() => {
                       navigateTo("/" + profile.uuid);
                     }}
-                    key={index}
                     className="animate-fade w-40 h-40 text-left -space-y-4 hover:scale-90 "
                   >
                     <Image
                       className="z-0 w-full h-full scale-125 object-cover translate-y-5"
                       src="/public/avatar.JPG"
                     />
-                    <CardHeader className="absolute bg-neutral-900/85  z-10 bottom-0 flex-col h-full items-start">
+                    <CardHeader className="absolute bg-neutral-900/90  z-10 bottom-0 flex-col h-full items-start">
                       <div className="font-bold w-full">
                         {profile.user.first_name} {profile.user.last_name}
                       </div>
-                      {/* <div>{profile.user.username}</div> */}
+                      <div>{profile.user.username}</div>
                       <div className="text-xs">{profile.bio}</div>
                     </CardHeader>
                     {/* <CardBody className="text-sm font-light overflow-hidden">
