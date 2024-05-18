@@ -28,7 +28,7 @@ interface ProfileData {
 const UserProfile = () => {
   const { uuid } = useParams();
   const [profileData, setProfileData] = useState<ProfileData>();
-  const [skillList, setSkillList] = useState<Array<string>>([]);
+  const [skillList, setSkillList] = useState<string[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isCurrentUserProfile, setIsCurrentUserProfile] =
     useState<boolean>(false);
@@ -52,7 +52,9 @@ const UserProfile = () => {
     setLink1(response?.profile.link_1!);
     setLink2(response?.profile.link_2!);
     setLink3(response?.profile.link_3!);
-    setSkillList(response.profile.skills);
+    if (Array.isArray(response.profile.skills)) {
+      setSkillList(response.profile.skills);
+    }
     setIsLoaded(true);
   };
 

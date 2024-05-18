@@ -168,6 +168,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const addSkill = (skill: string) => {
     // Create a new array by spreading the existing skillList and adding the new skill
+    console.log(skillList);
+
     const newSkillList = [...skillList, skill];
     // Set the new skill list as the state variable
     setSkillList(newSkillList);
@@ -180,7 +182,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const getAllSkills = async () => {
     const skills = await GetAllSkills();
     setAllSkills(skills);
-    console.log(allSkills);
   };
 
   useEffect(() => {
@@ -324,7 +325,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     : "font-light h-6"
                 }
               >
-                <IoLocationSharp className="scale-125" />
+                {location && <IoLocationSharp className="scale-125" />}
                 {location}
               </div>
             </Skeleton>
@@ -419,7 +420,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         animate="visible"
         className="w-full flex space-x-2 items-center justify-center flex-wrap mt-2"
       >
-        {skillList &&
+        {skillList.length > 0 &&
           skillList.map((skill: any, index: number) => (
             <motion.div
               variants={childVariants}
