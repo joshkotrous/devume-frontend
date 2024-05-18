@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getSkills() {
+export async function GetAllSkills() {
   try {
     const headers = {
       "Content-Type": "application/json",

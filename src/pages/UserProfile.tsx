@@ -82,7 +82,6 @@ const UserProfile = () => {
           link3={link3}
           setLink3={setLink3}
           isLoaded={isLoaded}
-          profileData={profileData}
           skillList={skillList}
           setSkillList={setSkillList}
           editMode={editMode}

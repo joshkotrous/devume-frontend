@@ -28,11 +28,11 @@ function App() {
   }, [isAuthenticated]);
   return (
     <NextUIProvider>
-      <main className="h-screen dark text-foreground bg-background">
+      <main className="h-screen dark text-foreground bg-background ">
         <Router>
           <Navigation isAuthenticated={isAuthenticated} />
           <div className="h-full flex justify-center">
-            <div className="max-w-[1024px] overflow-auto p-4">
+            <div className="h-full max-w-[1024px] p-4 overflow-auto">
               <Routes>
                 <Route path="/" element={<ExploreProfiles />} />
 

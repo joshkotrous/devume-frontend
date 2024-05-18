@@ -11,6 +11,9 @@ import {
   PopoverTrigger,
   PopoverContent,
   Button,
+  Dropdown,
+  Autocomplete,
+  AutocompleteItem,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -19,10 +22,10 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { FileUploader } from "react-drag-drop-files";
+import { GetAllSkills } from "../hooks/Skills";
 
 interface ProfileCardProps {
   isLoaded: boolean;
-  profileData: any;
   skillList: any;
   setSkillList: React.Dispatch<React.SetStateAction<Array<string>>>;
   editMode: boolean;
@@ -42,9 +45,13 @@ interface ProfileCardProps {
   setLink3: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface Skill {
+  id: number;
+  name: string;
+}
+
 const ProfileCard: React.FC<ProfileCardProps> = ({
   isLoaded,
-  profileData,
   skillList,
   setSkillList,
   editMode,
@@ -65,6 +72,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
   const [file, setFile] = useState();
   const fileTypes = ["JPEG", "PNG", "GIF"];
+  const [allSkills, setAllSkills] = useState<Array<Skill>>([]);
 
   const handleChange = (event: any) => {
     if (event.target.name === "first_name") {
@@ -158,6 +166,27 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     }
   };
 
+  const addSkill = (skill: string) => {
+    // Create a new array by spreading the existing skillList and adding the new skill
+    const newSkillList = [...skillList, skill];
+    // Set the new skill list as the state variable
+    setSkillList(newSkillList);
+  };
+
+  const handleSelect = (event: any) => {
+    addSkill(allSkills[event].name);
+  };
+
+  const getAllSkills = async () => {
+    const skills = await GetAllSkills();
+    setAllSkills(skills);
+    console.log(allSkills);
+  };
+
+  useEffect(() => {
+    getAllSkills();
+  }, []);
+
   return (
     <Card className="h-fit px-4 py-2">
       <CardHeader className="pb-0 flex-col gap-4 w-full text-center mb-2">
@@ -196,7 +225,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             className="z-10 rounded-full border-black"
           />
         </Skeleton>
-        {/* <Button className="mb-2 m-auto">Edit Profile</Button> */}
       </CardHeader>
       <CardBody className="p-1 mt-1 w-full space-y-1">
         {editMode ? (
@@ -231,10 +259,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             }
           >
             <div className="font-bold text-xl h-8 w-full">
-              {profileData &&
-                profileData?.user.first_name +
-                  " " +
-                  profileData?.user.last_name}
+              {firstName + " " + lastName}
             </div>
           </Skeleton>
         )}
@@ -283,7 +308,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                   isLoaded ? "font-light h-fit mb-2 -mt-2" : "font-light h-10"
                 }
               >
-                {profileData ? profileData?.profile.bio : "placeholder"}
+                {bio}
               </div>
             </Skeleton>
             <Skeleton
@@ -299,14 +324,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     : "font-light h-6"
                 }
               >
-                {profileData?.profile.location ? (
-                  <>
-                    <IoLocationSharp className="scale-125" />
-                    {profileData?.profile.location}
-                  </>
-                ) : (
-                  ""
-                )}
+                <IoLocationSharp className="scale-125" />
+                {location}
               </div>
             </Skeleton>
           </>
@@ -351,14 +370,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
               }
             >
-              {isLoaded && profileData?.profile.link_1 ? (
+              {isLoaded && link1 ? (
                 <div className="mb-1 ml-1">
-                  <Link
-                    className="text-sm"
-                    target="_blank"
-                    to={profileData?.profile.link_1}
-                  >
-                    {showLink(profileData?.profile.link_1)}
+                  <Link className="text-sm" target="_blank" to={link1}>
+                    {showLink(link1)}
                   </Link>
                 </div>
               ) : null}
@@ -370,14 +385,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
               }
             >
-              {isLoaded && profileData?.profile.link_2 ? (
+              {isLoaded && link2 ? (
                 <div className="mb-1 ml-1">
-                  <Link
-                    className="text-sm"
-                    target="_blank"
-                    to={profileData?.profile.link_2}
-                  >
-                    {showLink(profileData?.profile.link_2)}
+                  <Link className="text-sm" target="_blank" to={link2}>
+                    {showLink(link2)}
                   </Link>
                 </div>
               ) : null}
@@ -389,14 +400,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
               }
             >
-              {isLoaded && profileData?.profile.link_3 ? (
+              {isLoaded && link3 ? (
                 <div className="mb-1 ml-1">
-                  <Link
-                    className="text-sm"
-                    target="_blank"
-                    to={profileData?.profile.link_3}
-                  >
-                    {showLink(profileData?.profile.link_3)}
+                  <Link className="text-sm" target="_blank" to={link3}>
+                    {showLink(link3)}
                   </Link>
                 </div>
               ) : null}
@@ -412,7 +419,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         animate="visible"
         className="w-full flex space-x-2 items-center justify-center flex-wrap mt-2"
       >
-        {skillList ? (
+        {skillList &&
           skillList.map((skill: any, index: number) => (
             <motion.div
               variants={childVariants}
@@ -431,8 +438,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 </div>
               )}
             </motion.div>
-          ))
-        ) : (
+          ))}
+        {!isLoaded && (
           <>
             <Skeleton isLoaded={isLoaded} className="rounded-lg mb-2">
               <div className="bg-white/20 text-center p-1 text-xs rounded-md mb-2 h-4 w-12"></div>
@@ -452,10 +459,35 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           </>
         )}
         {editMode && (
-          <Input
-            className="scale-75 mb-1 w-2/3"
-            placeholder="+ Add Skill"
-          ></Input>
+          <>
+            <Autocomplete
+              onSelectionChange={(event: any) => {
+                handleSelect(event);
+              }}
+              popoverProps={{
+                placement: "bottom",
+                shouldFlip: false,
+                classNames: {
+                  content:
+                    "h-[100px] w-[150px] rounded-xl overflow-hidden bg-neutral-800 text-white",
+                },
+              }}
+              placeholder="+ Add Skill"
+              className="scale-75 mb-1 w-[120px] h-9"
+              aria-label="add skill"
+            >
+              {allSkills &&
+                allSkills.map((skill: any, index: number) => (
+                  <AutocompleteItem
+                    textValue={skill.name}
+                    key={index}
+                    value={skill.name}
+                  >
+                    {skill.name}
+                  </AutocompleteItem>
+                ))}
+            </Autocomplete>
+          </>
         )}
       </motion.div>
     </Card>
