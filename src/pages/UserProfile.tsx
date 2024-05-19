@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
-import { Button } from "@nextui-org/react";
+import { Button, Input, DatePicker, Textarea } from "@nextui-org/react";
 import { GetProfile } from "../hooks/Profiles";
 import { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import ProfileSection from "../components/ProfileSection";
+import Experience from "../components/Experience";
+import { GetWorkExperience, WorkExperienceData } from "../hooks/WorkExperience";
+import { motion, AnimatePresence } from "framer-motion";
 interface Skill {
   id: number;
   name: string;
@@ -28,6 +31,8 @@ interface ProfileData {
 const UserProfile = () => {
   const { uuid } = useParams();
   const [profileData, setProfileData] = useState<ProfileData>();
+  const [workExperienceData, setWorkExperienceData] =
+    useState<WorkExperienceData[]>();
   const [skillList, setSkillList] = useState<string[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isCurrentUserProfile, setIsCurrentUserProfile] =
@@ -41,6 +46,8 @@ const UserProfile = () => {
   const [link1, setLink1] = useState<string>("");
   const [link2, setLink2] = useState<string>("");
   const [link3, setLink3] = useState<string>("");
+  const [showAddWorkExperience, setShowAddWorkExperience] =
+    useState<boolean>(false);
 
   const getProfileData = async () => {
     const response = await GetProfile(String(uuid));
@@ -55,6 +62,9 @@ const UserProfile = () => {
     if (Array.isArray(response.profile.skills)) {
       setSkillList(response.profile.skills);
     }
+    const workexperienceResponse = await GetWorkExperience(String(uuid));
+    setWorkExperienceData(workexperienceResponse);
+
     setIsLoaded(true);
   };
 
@@ -106,8 +116,83 @@ const UserProfile = () => {
       </div>
 
       <div className="w-full flex-col space-y-10 overflow-auto pb-20">
-        <ProfileSection title="Work Experience" />
-        <ProfileSection title="Education" />
+        <ProfileSection title="Work Experience">
+          <AnimatePresence>
+            {editMode && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.1 }}
+                className="w-full text-center space-y-1"
+              >
+                <div
+                  className="mb-4 cursor-pointer w-fit m-auto"
+                  onClick={() => {
+                    if (showAddWorkExperience) {
+                      setShowAddWorkExperience(false);
+                    } else {
+                      setShowAddWorkExperience(true);
+                    }
+                  }}
+                >
+                  + Add Work Experience
+                </div>
+                <AnimatePresence>
+                  {showAddWorkExperience && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }} // Initial position (hidden)
+                      animate={{ opacity: 1, height: "auto" }} // Animation when becoming visible
+                      exit={{ opacity: 0, height: 0 }} // Animation when becoming hidden
+                      transition={{ duration: 0.5 }} // Animation duration
+                      style={{ overflow: "hidden" }} // Hide overflowing content
+                      className="space-y-1"
+                    >
+                      <Input placeholder="Organization"></Input>
+                      <Input placeholder="Title"></Input>
+                      <div className="flex gap-1 text-left">
+                        <DatePicker
+                          calendarProps={{ className: "dark" }}
+                          label="Start Date"
+                        ></DatePicker>
+                        <DatePicker
+                          calendarProps={{ className: "dark" }}
+                          label="End Date"
+                        ></DatePicker>
+                      </div>
+                      <Textarea
+                        minRows={6}
+                        className=""
+                        placeholder="Description"
+                      ></Textarea>
+                      <Button className="w-full" color="primary">
+                        Save
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {workExperienceData &&
+            workExperienceData.map((item: WorkExperienceData) => (
+              <Experience
+                organization={item.company}
+                positions={[
+                  {
+                    job_title: item.job_title,
+                    description: item.description,
+                    start_date: item.start_date,
+                    end_date: item.end_date,
+                  },
+                ]}
+              />
+            ))}
+        </ProfileSection>
+        <ProfileSection title="Education">
+          <Experience organization="Apple" />
+        </ProfileSection>
       </div>
     </div>
   );

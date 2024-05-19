@@ -3,14 +3,16 @@ import { Card, CardHeader, CardBody, Avatar } from "@nextui-org/react";
 
 interface ProfileSectionProps {
   title: string;
+  children: React.ReactNode;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ title }) => {
+const ProfileSection: React.FC<ProfileSectionProps> = ({ title, children }) => {
   return (
     <div className="w-full flex-col h-fit gap-2">
       <h2 className="mb-2 text-3xl font-bold">{title}</h2>
       <div className="flex-col space-y-4 h-fit">
-        <Card className="h-fit w-full py-4">
+        {children}
+        {/* <Card className="h-fit w-full py-4">
           <CardHeader className="pb-0 pt-2 px-4 flex items-center">
             <Avatar></Avatar>
             <h3 className="text-2xl font-semibold ml-2">Apple</h3>
@@ -59,7 +61,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ title }) => {
             </div>
             <p>test descriptions</p>
           </CardBody>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );
