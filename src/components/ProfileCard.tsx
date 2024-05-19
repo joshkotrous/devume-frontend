@@ -16,7 +16,7 @@ import {
   AutocompleteItem,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { IoMdPhotos, IoIosLink, IoIosClose } from "react-icons/io";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -192,35 +192,37 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     <Card className="h-fit px-4 py-2">
       <CardHeader className="pb-0 flex-col gap-4 w-full text-center mb-2">
         <Skeleton isLoaded={isLoaded} className="rounded-full">
-          {editMode && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.25 }}
-              className="absolute flex bg-black/50 z-50 h-full w-full items-center"
-            >
-              <Popover
-                placement="bottom"
-                className="before:bg-neutral-900"
-                showArrow={true}
+          <AnimatePresence>
+            {editMode && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="absolute flex bg-black/50 z-50 h-full w-full items-center"
               >
-                <PopoverTrigger>
-                  <Button disableAnimation className="bg-transparent w-full">
-                    <IoMdPhotos className="z-60 m-auto hover:text-primary scale-[3]" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="bg-neutral-900">
-                  <FileUploader
-                    classes="bg-neutral-900"
-                    multiple={false}
-                    handleChange={handleChange}
-                    name="file"
-                    types={fileTypes}
-                  />
-                </PopoverContent>
-              </Popover>
-            </motion.div>
-          )}
+                <Popover
+                  placement="bottom"
+                  className="before:bg-neutral-900"
+                  showArrow={true}
+                >
+                  <PopoverTrigger>
+                    <Button disableAnimation className="bg-transparent w-full">
+                      <IoMdPhotos className="z-60 m-auto hover:text-primary scale-[3]" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="bg-neutral-900">
+                    <FileUploader
+                      classes="bg-neutral-900"
+                      multiple={false}
+                      handleChange={handleChange}
+                      name="file"
+                      types={fileTypes}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <Image
             src="/IMG_4907.JPG"
             className="z-10 rounded-full border-black"
@@ -228,190 +230,196 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </Skeleton>
       </CardHeader>
       <CardBody className="p-1 mt-1 w-full space-y-1">
-        {editMode ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.25 }}
-            className="flex gap-1"
-          >
-            <Input
-              value={firstName}
-              placeholder="First name"
-              name="first_name"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            />
-            <Input
-              value={lastName}
-              placeholder="Last name"
-              name="last_name"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-            />
-          </motion.div>
-        ) : (
-          <Skeleton
-            isLoaded={isLoaded}
-            className={
-              !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
-            }
-          >
-            <div className="font-bold text-xl h-8 w-full">
-              {firstName + " " + lastName}
-            </div>
-          </Skeleton>
-        )}
-
-        {editMode ? (
-          <>
+        <AnimatePresence>
+          {editMode ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.25 }}
-            >
-              <Textarea
-                value={bio}
-                name="bio"
-                onChange={(event) => {
-                  handleChange(event);
-                }}
-                placeholder="Bio"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.25 }}
+              className="flex gap-1"
             >
               <Input
-                value={location}
-                placeholder="Location"
-                name="location"
+                value={firstName}
+                placeholder="First name"
+                name="first_name"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+              />
+              <Input
+                value={lastName}
+                placeholder="Last name"
+                name="last_name"
                 onChange={(event) => {
                   handleChange(event);
                 }}
               />
             </motion.div>
-          </>
-        ) : (
-          <>
+          ) : (
             <Skeleton
               isLoaded={isLoaded}
               className={
                 !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
               }
             >
-              <div
-                className={
-                  isLoaded ? "font-light h-fit mb-2 -mt-2" : "font-light h-10"
-                }
-              >
-                {bio}
+              <div className="font-bold text-xl h-8 w-full">
+                {firstName + " " + lastName}
               </div>
             </Skeleton>
-            <Skeleton
-              isLoaded={isLoaded}
-              className={
-                !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
-              }
-            >
-              <div
+          )}
+
+          {editMode ? (
+            <>
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Textarea
+                  minRows={4}
+                  value={bio}
+                  name="bio"
+                  onChange={(event) => {
+                    handleChange(event);
+                  }}
+                  placeholder="Bio"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Input
+                  value={location}
+                  placeholder="Location"
+                  name="location"
+                  onChange={(event) => {
+                    handleChange(event);
+                  }}
+                />
+              </motion.div>
+            </>
+          ) : (
+            <>
+              <Skeleton
+                isLoaded={isLoaded}
                 className={
-                  isLoaded
-                    ? "font-light h-fit mb-4 flex items-center gap-2 ml-1"
-                    : "font-light h-6"
+                  !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
                 }
               >
-                {location && <IoLocationSharp className="scale-125" />}
-                {location}
-              </div>
-            </Skeleton>
-          </>
-        )}
-        {editMode ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.25 }}
-            className="space-y-1"
-          >
-            <Input
-              value={link1}
-              name="link_1"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-              placeholder="Link 1"
-            />
-            <Input
-              value={link2}
-              name="link_2"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-              placeholder="Link 2"
-            />
-            <Input
-              value={link3}
-              name="link_3"
-              onChange={(event) => {
-                handleChange(event);
-              }}
-              placeholder="Link 3"
-            />
-          </motion.div>
-        ) : (
-          <>
-            <Skeleton
-              isLoaded={isLoaded}
-              className={
-                !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
-              }
-            >
-              {isLoaded && link1 ? (
-                <div className="mb-1 ml-1">
-                  <Link className="text-sm" target="_blank" to={link1}>
-                    {showLink(link1)}
-                  </Link>
+                <div
+                  className={
+                    isLoaded ? "font-light h-fit mb-2 -mt-2" : "font-light h-10"
+                  }
+                >
+                  {bio}
                 </div>
-              ) : null}
-              {!isLoaded && <div className="w-full h-5"></div>}
-            </Skeleton>
-            <Skeleton
-              isLoaded={isLoaded}
-              className={
-                !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
-              }
-            >
-              {isLoaded && link2 ? (
-                <div className="mb-1 ml-1">
-                  <Link className="text-sm" target="_blank" to={link2}>
-                    {showLink(link2)}
-                  </Link>
+              </Skeleton>
+              <Skeleton
+                isLoaded={isLoaded}
+                className={
+                  !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
+                }
+              >
+                <div
+                  className={
+                    isLoaded
+                      ? "font-light h-fit mb-4 flex items-center gap-2 ml-1"
+                      : "font-light h-6"
+                  }
+                >
+                  {location && <IoLocationSharp className="scale-125" />}
+                  {location}
                 </div>
-              ) : null}
-              {!isLoaded && <div className="w-full h-5"></div>}
-            </Skeleton>
-            <Skeleton
-              isLoaded={isLoaded}
-              className={
-                !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
-              }
+              </Skeleton>
+            </>
+          )}
+          {editMode ? (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.15 }}
+              className="space-y-1"
             >
-              {isLoaded && link3 ? (
-                <div className="mb-1 ml-1">
-                  <Link className="text-sm" target="_blank" to={link3}>
-                    {showLink(link3)}
-                  </Link>
-                </div>
-              ) : null}
-              {!isLoaded && <div className="w-full h-5"></div>}
-            </Skeleton>
-          </>
-        )}
+              <Input
+                value={link1}
+                name="link_1"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+                placeholder="Link 1"
+              />
+              <Input
+                value={link2}
+                name="link_2"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+                placeholder="Link 2"
+              />
+              <Input
+                value={link3}
+                name="link_3"
+                onChange={(event) => {
+                  handleChange(event);
+                }}
+                placeholder="Link 3"
+              />
+            </motion.div>
+          ) : (
+            <>
+              <Skeleton
+                isLoaded={isLoaded}
+                className={
+                  !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
+                }
+              >
+                {isLoaded && link1 ? (
+                  <div className="mb-1 ml-1">
+                    <Link className="text-sm" target="_blank" to={link1}>
+                      {showLink(link1)}
+                    </Link>
+                  </div>
+                ) : null}
+                {!isLoaded && <div className="w-full h-5"></div>}
+              </Skeleton>
+              <Skeleton
+                isLoaded={isLoaded}
+                className={
+                  !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
+                }
+              >
+                {isLoaded && link2 ? (
+                  <div className="mb-1 ml-1">
+                    <Link className="text-sm" target="_blank" to={link2}>
+                      {showLink(link2)}
+                    </Link>
+                  </div>
+                ) : null}
+                {!isLoaded && <div className="w-full h-5"></div>}
+              </Skeleton>
+              <Skeleton
+                isLoaded={isLoaded}
+                className={
+                  !isLoaded ? "rounded-full" : "rounded-full overflow-visible"
+                }
+              >
+                {isLoaded && link3 ? (
+                  <div className="mb-1 ml-1">
+                    <Link className="text-sm" target="_blank" to={link3}>
+                      {showLink(link3)}
+                    </Link>
+                  </div>
+                ) : null}
+                {!isLoaded && <div className="w-full h-5"></div>}
+              </Skeleton>
+            </>
+          )}
+        </AnimatePresence>
       </CardBody>
 
       <motion.div
@@ -420,10 +428,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         animate="visible"
         className="w-full flex space-x-2 items-center justify-center flex-wrap mt-2"
       >
-        {skillList.length > 0 &&
+        {isLoaded &&
+          skillList.length > 0 &&
           skillList.map((skill: any, index: number) => (
             <motion.div
               variants={childVariants}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.1 }}
               className="item bg-white/20 text-center p-1 w-fit h-7 text-xs rounded-md mb-2 flex overflow-hidden items-center"
               key={index}
             >

@@ -31,8 +31,8 @@ function App() {
       <main className="h-screen dark text-foreground bg-background ">
         <Router>
           <Navigation isAuthenticated={isAuthenticated} />
-          <div className="h-full flex justify-center">
-            <div className="h-full max-w-[1024px] p-4 overflow-auto">
+          <div className="h-screen w-full">
+            <div className="h-full max-w-[1024px] m-auto px-4 overflow-auto">
               <Routes>
                 <Route path="/" element={<ExploreProfiles />} />
 
@@ -40,7 +40,10 @@ function App() {
                   path="/login"
                   element={<Login setIsAuthenticated={setIsAuthenticated} />}
                 />
-                <Route path="/sign-up" element={<SignUp />} />
+                <Route
+                  path="/sign-up"
+                  element={<SignUp setIsAuthenticated={setIsAuthenticated} />}
+                />
                 <Route path="/:uuid" element={<UserProfile />} />
               </Routes>
             </div>

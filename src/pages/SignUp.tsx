@@ -12,7 +12,13 @@ import { useNavigate } from "react-router-dom";
 import { CreateProfile } from "../hooks/Profiles.tsx";
 import { UserLogin } from "../hooks/Auth.tsx";
 import { motion } from "framer-motion";
-const SignUp = () => {
+import JSConfetti from "js-confetti";
+
+interface SignUpProps {
+  setIsAuthenticated: React.Dispatch<boolean>;
+}
+
+const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -21,6 +27,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigateTo = useNavigate();
+  const jsConfetti = new JSConfetti();
 
   const handleKeyPress = (event: any) => {
     if (event.keyCode === 13) {
@@ -57,7 +64,14 @@ const SignUp = () => {
         password
       );
       await UserLogin(username, password);
-      await CreateProfile();
+      const profile = await CreateProfile();
+      localStorage.setItem("profileId", profile.uuid);
+      setIsAuthenticated(true);
+      await jsConfetti.addConfetti({
+        confettiRadius: 6,
+        confettiNumber: 500,
+      });
+
       navigateTo("/");
     } catch (error: any) {
       if ("username" in error.response.data) {

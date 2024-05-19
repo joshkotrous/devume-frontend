@@ -31,7 +31,7 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
           <NavbarItem className="lg:flex">
             <Dropdown className="bg-neutral-900 text-white">
               <DropdownTrigger>
-                <Avatar isBordered />
+                <Avatar isBordered className="cursor-pointer" />
               </DropdownTrigger>
               <DropdownMenu
                 onAction={async (key) => {

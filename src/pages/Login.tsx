@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, Button, Input } from "@nextui-org/react";
 import { UserLogin } from "../hooks/Auth";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+
 interface LoginProps {
   setIsAuthenticated: React.Dispatch<SetStateAction<boolean>>;
 }
@@ -35,6 +36,7 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
     setIsLoading(true);
     try {
       const response = await UserLogin(username, password);
+
       setIsAuthenticated(true);
       navigateTo("/");
     } catch (error: any) {

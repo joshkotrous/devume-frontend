@@ -77,7 +77,7 @@ const UserProfile = () => {
 
   return (
     <div className="h-full md:flex justify-center">
-      <div className="md:w-1/4 mr-4 space-y-4 w-full mb-4">
+      <div className="md:w-1/4 mr-4 space-y-2 w-full mb-4">
         <ProfileCard
           firstName={firstName}
           setFirstName={setFirstName}
@@ -120,9 +120,9 @@ const UserProfile = () => {
           <AnimatePresence>
             {editMode && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.1 }}
                 className="w-full text-center space-y-1"
               >
@@ -144,27 +144,30 @@ const UserProfile = () => {
                       initial={{ opacity: 0, height: 0 }} // Initial position (hidden)
                       animate={{ opacity: 1, height: "auto" }} // Animation when becoming visible
                       exit={{ opacity: 0, height: 0 }} // Animation when becoming hidden
-                      transition={{ duration: 0.5 }} // Animation duration
+                      transition={{ duration: 0.25 }} // Animation duration
                       style={{ overflow: "hidden" }} // Hide overflowing content
-                      className="space-y-1"
+                      className="space-y-2"
                     >
-                      <Input placeholder="Organization"></Input>
-                      <Input placeholder="Title"></Input>
-                      <div className="flex gap-1 text-left">
-                        <DatePicker
-                          calendarProps={{ className: "dark" }}
-                          label="Start Date"
-                        ></DatePicker>
-                        <DatePicker
-                          calendarProps={{ className: "dark" }}
-                          label="End Date"
-                        ></DatePicker>
+                      <div className="space-y-1">
+                        <Input placeholder="Organization"></Input>
+                        <Input placeholder="Title"></Input>
+                        <div className="flex gap-1 text-left">
+                          <DatePicker
+                            calendarProps={{ className: "dark" }}
+                            label="Start Date"
+                          ></DatePicker>
+                          <DatePicker
+                            calendarProps={{ className: "dark" }}
+                            label="End Date"
+                          ></DatePicker>
+                        </div>
+                        <Textarea
+                          minRows={6}
+                          className=""
+                          placeholder="Description"
+                        ></Textarea>
                       </div>
-                      <Textarea
-                        minRows={6}
-                        className=""
-                        placeholder="Description"
-                      ></Textarea>
+
                       <Button className="w-full" color="primary">
                         Save
                       </Button>
