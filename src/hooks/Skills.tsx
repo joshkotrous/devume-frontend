@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface SkillData {
+  id: number;
+  name: string;
+}
+
 export async function GetAllSkills() {
   try {
     const headers = {

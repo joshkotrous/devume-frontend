@@ -8,7 +8,12 @@ import {
   AutocompleteSection,
   AutocompleteItem,
 } from "@nextui-org/react";
-import { GetProfile } from "../hooks/Profiles";
+import {
+  GetProfile,
+  UpdateProfile,
+  ProfileData,
+  UpdateProfileData,
+} from "../hooks/Profiles";
 import { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import ProfileSection from "../components/ProfileSection";
@@ -17,26 +22,7 @@ import { GetWorkExperience, WorkExperienceData } from "../hooks/WorkExperience";
 import { motion, AnimatePresence } from "framer-motion";
 import { GetDegrees } from "../hooks/Degress";
 import { GetEducation, EducationData } from "../hooks/Education";
-interface Skill {
-  id: number;
-  name: string;
-}
-interface ProfileData {
-  user: {
-    first_name: string;
-    last_name: string;
-    username: string;
-  };
-  profile: {
-    bio: string;
-    birth_date: string;
-    skills: Array<Skill>;
-    location: string;
-    link_1: string;
-    link_2: string;
-    link_3: string;
-  };
-}
+import { UpdateUser, UserData } from "../hooks/Users";
 
 const UserProfile = () => {
   const { uuid } = useParams();
@@ -61,11 +47,56 @@ const UserProfile = () => {
   const [showAddWorkExperience, setShowAddWorkExperience] =
     useState<boolean>(false);
   const [showAddEducation, setShowAddEducation] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const getDegrees = async () => {
     const response = await GetDegrees();
     setDegrees(response);
-    console.log(degrees);
+  };
+
+  const updateUser = async () => {
+    const userData: UserData = {
+      id: profileData?.user.id!,
+      first_name: firstName,
+      last_name: lastName,
+      email: profileData?.user.email!,
+      username: profileData?.user.username!,
+    };
+    try {
+      const response = await UpdateUser(userData, profileData?.user.id!);
+      console.log(response);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const updateProfile = async () => {
+    const updateProfileData: UpdateProfileData = {
+      uuid: profileData?.profile.uuid!,
+      bio: bio,
+      skills: skillList,
+      link_1: link1,
+      link_2: link2,
+      link_3: link3,
+      location: location,
+    };
+    try {
+      const response = await UpdateProfile(
+        updateProfileData,
+        profileData?.profile.uuid!
+      );
+      console.log(response);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const saveProfileChanges = async () => {
+    setIsSaving(true);
+    await updateUser();
+    await updateProfile();
+    setIsSaving(false);
+    setEditMode(false);
   };
 
   const getProfileData = async () => {
@@ -97,10 +128,6 @@ const UserProfile = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(degrees);
-  }, [degrees]);
-
   return (
     <div className="h-full md:flex justify-center">
       <div className="md:w-1/4 mr-4 space-y-2 w-full mb-4">
@@ -127,11 +154,12 @@ const UserProfile = () => {
         {isCurrentUserProfile && (
           <>
             <Button
+              isLoading={isSaving}
               color={!editMode ? "default" : "primary"}
               className="w-full"
               onClick={() => {
                 if (editMode) {
-                  setEditMode(false);
+                  saveProfileChanges();
                 } else {
                   setEditMode(true);
                 }
@@ -322,7 +350,7 @@ const UserProfile = () => {
             )}
           </AnimatePresence>
           {educationData &&
-            educationData.map((item: EducationData) => (
+            educationData.map((item: EducationData, index: number) => (
               <Experience
                 organization={item.school_name}
                 positions={[
@@ -331,6 +359,7 @@ const UserProfile = () => {
                     description: item.degree,
                   },
                 ]}
+                key={index}
               />
             ))}
         </ProfileSection>

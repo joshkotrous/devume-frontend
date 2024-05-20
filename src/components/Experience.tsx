@@ -23,8 +23,8 @@ const Experience: React.FC<ExperienceProps> = ({ organization, positions }) => {
       <CardBody className="overflow-visible py-2">
         <div className="flex-col space-y-2">
           {positions &&
-            positions.map((item: Position) => (
-              <div>
+            positions.map((item: Position, index: number) => (
+              <div key={index}>
                 <div className="flex items-center justify-between">
                   <h4 className="font-semibold text-xl">{item.job_title}</h4>
                   <p>

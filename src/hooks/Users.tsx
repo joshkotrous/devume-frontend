@@ -1,4 +1,13 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+export interface UserData {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  password?: string;
+}
 
 export async function CreateUser(
   firstName: string,
@@ -33,6 +42,29 @@ export async function CreateUser(
   } catch (error: any) {
     if (error.response) {
       console.log("Error data:", error.response.data);
+    }
+    throw error;
+  }
+}
+
+export async function UpdateUser(userData: UserData, userId: number) {
+  const request = userData;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + Cookies.get("token"),
+  };
+  try {
+    const response = await axios.put(
+      import.meta.env.VITE_REACT_APP_API_BASE_URL + `/users/${userId}/update`,
+      request,
+      {
+        headers: headers,
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.log(error.response.data);
     }
     throw error;
   }
