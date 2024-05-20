@@ -130,7 +130,7 @@ const UserProfile = () => {
 
   return (
     <div className="h-full md:flex justify-center">
-      <div className="md:w-1/4 mr-4 space-y-2 w-full mb-4">
+      <div className="md:w-1/4 mr-4 space-y-2 w-full pb-20 mb-4 overflow-auto">
         <ProfileCard
           firstName={firstName}
           setFirstName={setFirstName}

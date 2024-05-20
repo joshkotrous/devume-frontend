@@ -196,7 +196,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             >
               <Popover
                 placement="bottom"
-                className="before:bg-neutral-900"
+                className=" before:bg-neutral-900"
                 showArrow={true}
               >
                 <PopoverTrigger>
@@ -222,7 +222,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           />
         </Skeleton>
       </CardHeader>
-      <CardBody className="p-1 mt-1 w-full space-y-1">
+      <CardBody className="p-1 mt-1 w-full space-y-1 mb-2">
         {editMode ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -477,7 +477,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               },
             }}
             placeholder="+ Add Skill"
-            className="scale-75 relative mb-1 w-[120px] -mt-1 "
+            className="scale-75  mb-1 w-[120px] -mt-1 "
             aria-label="add skill"
           >
             {allSkills &&
