@@ -1,9 +1,12 @@
 import axios from "axios";
 
 export interface EducationData {
-  id: number;
-  profile: string;
+  id?: number;
+  profile?: string;
   school_name: string;
+  start_date: string;
+  end_date: string;
+  description: string;
   degree: string;
   field_of_study: string;
 }

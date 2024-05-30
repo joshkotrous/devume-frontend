@@ -1,12 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import { Button, Input, DatePicker, Textarea } from "@nextui-org/react";
 import { CalendarDate } from "@internationalized/date";
-const WorkExperienceInput = () => {
+import { WorkExperienceData } from "../hooks/WorkExperience";
+
+interface WorkExperienceInputProps {
+  workExperiences: WorkExperienceData[];
+  setWorkExperiences: React.Dispatch<
+    React.SetStateAction<WorkExperienceData[]>
+  >;
+}
+
+const WorkExperienceInput: React.FC<WorkExperienceInputProps> = ({
+  setWorkExperiences,
+  workExperiences,
+}) => {
   const [organization, setOrganization] = useState<string>();
   const [title, setTitle] = useState<string>();
-  const [startDate, setStartDate] = useState<CalendarDate>();
-  const [endDate, setEndDate] = useState<CalendarDate>();
+  const [startDate, setStartDate] = useState<CalendarDate | null>();
+  const [endDate, setEndDate] = useState<CalendarDate | null>();
   const [description, setDescription] = useState<string>();
 
   return (
@@ -66,7 +78,28 @@ const WorkExperienceInput = () => {
         />
       </div>
 
-      <Button className="w-full" color="primary">
+      <Button
+        className="w-full"
+        color="primary"
+        onClick={() => {
+          const workExperience: WorkExperienceData = {
+            company: organization!,
+            description: description!,
+            job_title: title!,
+            start_date: String(startDate!),
+            end_date: String(endDate!),
+          };
+          setWorkExperiences((workExperiences) => [
+            ...workExperiences,
+            workExperience,
+          ]);
+          setOrganization("");
+          setTitle("");
+          setDescription("");
+          setStartDate(null);
+          setEndDate(null);
+        }}
+      >
         Save
       </Button>
     </motion.div>

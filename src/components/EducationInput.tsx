@@ -9,15 +9,22 @@ import {
   Button,
 } from "@nextui-org/react";
 import { CalendarDate } from "@internationalized/date";
+import { EducationData } from "../hooks/Education";
 interface EducationInputProps {
   degrees?: string[];
+  newEducation: EducationData[];
+  setNewEducation: React.Dispatch<React.SetStateAction<EducationData[]>>;
 }
 
-const EducationInput: React.FC<EducationInputProps> = ({ degrees }) => {
+const EducationInput: React.FC<EducationInputProps> = ({
+  degrees,
+  newEducation,
+  setNewEducation,
+}) => {
   const [school, setSchool] = useState<string>();
   const [field, setField] = useState<string>();
-  const [startDate, setStartDate] = useState<CalendarDate>();
-  const [endDate, setEndDate] = useState<CalendarDate>();
+  const [startDate, setStartDate] = useState<CalendarDate | null>();
+  const [endDate, setEndDate] = useState<CalendarDate | null>();
   const [description, setDescription] = useState<string>();
   const [degree, setDegree] = useState<string>();
 
@@ -47,7 +54,9 @@ const EducationInput: React.FC<EducationInputProps> = ({ degrees }) => {
             placeholder="Field of Study"
           />
           <Autocomplete
-            onSelectionChange={(event: any) => {}}
+            onSelectionChange={(event: any) => {
+              setDegree(degrees![event]);
+            }}
             popoverProps={{
               placement: "bottom",
               shouldFlip: false,
@@ -62,14 +71,7 @@ const EducationInput: React.FC<EducationInputProps> = ({ degrees }) => {
           >
             {degrees! &&
               degrees.map((degree: any, index: number) => (
-                <AutocompleteItem
-                  textValue={degree}
-                  key={index}
-                  value={degree}
-                  onSelect={(event: any) => {
-                    console.log(event);
-                  }}
-                >
+                <AutocompleteItem textValue={degree} key={index} value={degree}>
                   {degree}
                 </AutocompleteItem>
               ))}
@@ -107,7 +109,27 @@ const EducationInput: React.FC<EducationInputProps> = ({ degrees }) => {
         />
       </div>
 
-      <Button className="w-full" color="primary">
+      <Button
+        className="w-full"
+        color="primary"
+        onClick={() => {
+          const education: EducationData = {
+            school_name: school!,
+            start_date: String(startDate!),
+            end_date: String(endDate!),
+            description: description!,
+            degree: degree!,
+            field_of_study: field!,
+          };
+          setNewEducation((newEducation) => [...newEducation, education]);
+          setSchool("");
+          setStartDate(null);
+          setEndDate(null);
+          setField("");
+          setDegree("");
+          setDescription("");
+        }}
+      >
         Save
       </Button>
     </motion.div>

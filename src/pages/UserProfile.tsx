@@ -18,7 +18,11 @@ import { useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import ProfileSection from "../components/ProfileSection";
 import Experience from "../components/Experience";
-import { GetWorkExperience, WorkExperienceData } from "../hooks/WorkExperience";
+import {
+  GetWorkExperience,
+  WorkExperienceData,
+  CreateWorkExperience,
+} from "../hooks/WorkExperience";
 import { motion, AnimatePresence } from "framer-motion";
 import { GetDegrees } from "../hooks/Degress";
 import { GetEducation, EducationData } from "../hooks/Education";
@@ -49,6 +53,10 @@ const UserProfile = () => {
     useState<boolean>(false);
   const [showAddEducation, setShowAddEducation] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [newWorkExperiences, setNewWorkExperiences] = useState<
+    WorkExperienceData[]
+  >([]);
+  const [newEducation, setNewEducation] = useState<EducationData[]>([]);
 
   const getDegrees = async () => {
     const response = await GetDegrees();
@@ -98,6 +106,10 @@ const UserProfile = () => {
     await updateProfile();
     setIsSaving(false);
     setEditMode(false);
+    for (const item of newWorkExperiences) {
+      const response = await CreateWorkExperience(item);
+      console.log(response);
+    }
   };
 
   const getProfileData = async () => {
@@ -128,6 +140,10 @@ const UserProfile = () => {
       setIsCurrentUserProfile(true);
     }
   }, []);
+
+  useEffect(() => {
+    console.log(newEducation);
+  }, [newEducation]);
 
   return (
     <div className="md:flex justify-center">
@@ -209,14 +225,19 @@ const UserProfile = () => {
                   )}
                 </div>
                 <AnimatePresence>
-                  {showAddWorkExperience && <WorkExperienceInput />}
+                  {showAddWorkExperience && (
+                    <WorkExperienceInput
+                      workExperiences={newWorkExperiences!}
+                      setWorkExperiences={setNewWorkExperiences}
+                    />
+                  )}
                 </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
 
           {workExperienceData &&
-            workExperienceData.map(
+            [...workExperienceData, ...newWorkExperiences].map(
               (item: WorkExperienceData, index: number) => (
                 <Experience
                   organization={item.company}
@@ -260,24 +281,32 @@ const UserProfile = () => {
                   )}
                 </div>
                 <AnimatePresence>
-                  {showAddEducation && <EducationInput degrees={degrees} />}
+                  {showAddEducation && (
+                    <EducationInput
+                      newEducation={newEducation}
+                      setNewEducation={setNewEducation}
+                      degrees={degrees}
+                    />
+                  )}
                 </AnimatePresence>
               </motion.div>
             )}
           </AnimatePresence>
           {educationData &&
-            educationData.map((item: EducationData, index: number) => (
-              <Experience
-                organization={item.school_name}
-                positions={[
-                  {
-                    job_title: item.field_of_study,
-                    description: item.degree,
-                  },
-                ]}
-                key={index}
-              />
-            ))}
+            [...educationData, ...newEducation].map(
+              (item: EducationData, index: number) => (
+                <Experience
+                  organization={item.school_name}
+                  positions={[
+                    {
+                      job_title: item.field_of_study,
+                      description: item.degree,
+                    },
+                  ]}
+                  key={index}
+                />
+              )
+            )}
         </ProfileSection>
       </div>
     </div>
