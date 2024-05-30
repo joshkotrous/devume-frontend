@@ -20,7 +20,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ isAuthenticated }) => {
   const navigateTo = useNavigate();
   return (
-    <Navbar>
+    <Navbar className="fixed bg-transparent backdrop-blur-[2px] backdrop-saturate-100">
       <NavbarBrand>
         <Link to="/">
           <h1 className="font-bold text-xl">Devumé</h1>

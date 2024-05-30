@@ -23,7 +23,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GetDegrees } from "../hooks/Degress";
 import { GetEducation, EducationData } from "../hooks/Education";
 import { UpdateUser, UserData } from "../hooks/Users";
-
+import WorkExperienceInput from "../components/WorkExperienceInput";
+import EducationInput from "../components/EducationInput";
 const UserProfile = () => {
   const { uuid } = useParams();
   const [profileData, setProfileData] = useState<ProfileData>();
@@ -129,8 +130,8 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="h-full md:flex justify-center">
-      <div className="md:w-1/4 mr-4 space-y-2 w-full pb-20 mb-4 overflow-auto">
+    <div className="md:flex justify-center">
+      <div className="md:w-1/4 mr-4 space-y-2 w-full overflow-auto">
         <ProfileCard
           firstName={firstName}
           setFirstName={setFirstName}
@@ -151,6 +152,7 @@ const UserProfile = () => {
           setSkillList={setSkillList}
           editMode={editMode}
         />
+
         {isCurrentUserProfile && (
           <>
             <Button
@@ -200,43 +202,14 @@ const UserProfile = () => {
                     }
                   }}
                 >
-                  + Add Work Experience
+                  {showAddWorkExperience ? (
+                    <span className="text-red-600">Cancel</span>
+                  ) : (
+                    "+ Add Work Experience"
+                  )}
                 </div>
                 <AnimatePresence>
-                  {showAddWorkExperience && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }} // Initial position (hidden)
-                      animate={{ opacity: 1, height: "auto" }} // Animation when becoming visible
-                      exit={{ opacity: 0, height: 0 }} // Animation when becoming hidden
-                      transition={{ duration: 0.25 }} // Animation duration
-                      style={{ overflow: "hidden" }} // Hide overflowing content
-                      className="space-y-2"
-                    >
-                      <div className="space-y-1">
-                        <Input placeholder="Organization"></Input>
-                        <Input placeholder="Title"></Input>
-                        <div className="flex gap-1 text-left">
-                          <DatePicker
-                            calendarProps={{ className: "dark" }}
-                            label="Start Date"
-                          ></DatePicker>
-                          <DatePicker
-                            calendarProps={{ className: "dark" }}
-                            label="End Date"
-                          ></DatePicker>
-                        </div>
-                        <Textarea
-                          minRows={6}
-                          className=""
-                          placeholder="Description"
-                        ></Textarea>
-                      </div>
-
-                      <Button className="w-full" color="primary">
-                        Save
-                      </Button>
-                    </motion.div>
-                  )}
+                  {showAddWorkExperience && <WorkExperienceInput />}
                 </AnimatePresence>
               </motion.div>
             )}
@@ -280,71 +253,14 @@ const UserProfile = () => {
                     }
                   }}
                 >
-                  + Add Education
+                  {showAddEducation ? (
+                    <span className="text-red-600">Cancel</span>
+                  ) : (
+                    "+ Add Education"
+                  )}
                 </div>
                 <AnimatePresence>
-                  {showAddEducation && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }} // Initial position (hidden)
-                      animate={{ opacity: 1, height: "auto" }} // Animation when becoming visible
-                      exit={{ opacity: 0, height: 0 }} // Animation when becoming hidden
-                      transition={{ duration: 0.25 }} // Animation duration
-                      style={{ overflow: "hidden" }} // Hide overflowing content
-                      className="space-y-2"
-                    >
-                      <div className="space-y-1">
-                        <Input placeholder="School"></Input>
-                        <div className="flex gap-1">
-                          <Input placeholder="Field of Study"></Input>
-                          <Autocomplete
-                            onSelectionChange={(event: any) => {}}
-                            popoverProps={{
-                              placement: "bottom",
-                              shouldFlip: false,
-                              classNames: {
-                                content:
-                                  "h-[125px] w-[150px] rounded-xl overflow-hidden bg-neutral-800 text-white",
-                              },
-                            }}
-                            placeholder="Degree Level"
-                            className="relative "
-                            aria-label="degree level"
-                          >
-                            {degrees &&
-                              degrees.map((degree: any, index: number) => (
-                                <AutocompleteItem
-                                  textValue={degree}
-                                  key={index}
-                                  value={degree}
-                                >
-                                  {degree}
-                                </AutocompleteItem>
-                              ))}
-                          </Autocomplete>
-                        </div>
-
-                        <div className="flex gap-1 text-left">
-                          <DatePicker
-                            calendarProps={{ className: "dark" }}
-                            label="Start Date"
-                          ></DatePicker>
-                          <DatePicker
-                            calendarProps={{ className: "dark" }}
-                            label="End Date"
-                          ></DatePicker>
-                        </div>
-                        <Textarea
-                          minRows={6}
-                          className=""
-                          placeholder="Description"
-                        ></Textarea>
-                      </div>
-
-                      <Button className="w-full" color="primary">
-                        Save
-                      </Button>
-                    </motion.div>
-                  )}
+                  {showAddEducation && <EducationInput degrees={degrees} />}
                 </AnimatePresence>
               </motion.div>
             )}

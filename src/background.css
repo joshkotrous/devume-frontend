@@ -1,0 +1,45 @@
+.gradient-container {
+  position: absolute;
+  top: 0;
+  width: 100vw; /* Adjust as needed */
+  height: 100vh; /* Adjust as needed */
+}
+
+.content {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  left: 250px;
+
+  background-image: radial-gradient(
+    ellipse closest-side at center,
+    #7e4fff,
+    rgba(255, 126, 95, 0)
+  );
+  background-clip: padding-box;
+  scale: 200%;
+}
+
+.content2 {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  left: 300px;
+  top: 200px;
+  background-image: radial-gradient(
+    circle closest-side at center,
+    #3875b6,
+    rgba(255, 126, 95, 0)
+  );
+  background-clip: padding-box;
+  scale: 200%;
+}
+
+.gridCont {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.04) 0.05em,
+      transparent 0.1em
+    ),
+    linear-gradient(90deg, rgb(255, 255, 255, 0.04) 0.05em, transparent 0.05em);
+  background-size: 1.5em 1.5em;
+}
