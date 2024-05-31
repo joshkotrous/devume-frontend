@@ -143,12 +143,16 @@ const UserProfile = () => {
 
   const deleteEducation = async (experienceId: number, arrayIndex: number) => {
     const response = await DeleteEducation(experienceId);
-    const array = educationData?.splice(arrayIndex + 1, 1);
+    const array = educationData
+      ?.splice(0, arrayIndex)
+      .concat(educationData.slice(arrayIndex + 1));
     setEducationData(array);
   };
 
   const deleteNewEducation = (arrayIndex: number) => {
-    const array = newEducation?.splice(arrayIndex + 1, 1);
+    const array = newEducation
+      ?.splice(0, arrayIndex)
+      .concat(newEducation.slice(arrayIndex + 1));
     setNewEducation(array);
   };
 
@@ -157,13 +161,17 @@ const UserProfile = () => {
     arrayIndex: number
   ) => {
     const response = await DeleteWorkExperience(experienceId);
-    const array = workExperienceData?.splice(arrayIndex + 1, 1);
+    const array = workExperienceData
+      ?.splice(0, arrayIndex)
+      .concat(workExperienceData.slice(arrayIndex + 1));
     setWorkExperienceData(array);
     console.log(response);
   };
 
   const deleteNewWorkExperience = (arrayIndex: number) => {
-    const array = newWorkExperiences?.splice(arrayIndex + 1, 1);
+    const array = newWorkExperiences
+      ?.splice(0, arrayIndex)
+      .concat(newWorkExperiences.slice(arrayIndex + 1));
     setNewWorkExperiences(array);
   };
 
