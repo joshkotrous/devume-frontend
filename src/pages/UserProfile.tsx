@@ -25,7 +25,11 @@ import {
 } from "../hooks/WorkExperience";
 import { motion, AnimatePresence } from "framer-motion";
 import { GetDegrees } from "../hooks/Degress";
-import { GetEducation, EducationData } from "../hooks/Education";
+import {
+  GetEducation,
+  CreateEducation,
+  EducationData,
+} from "../hooks/Education";
 import { UpdateUser, UserData } from "../hooks/Users";
 import WorkExperienceInput from "../components/WorkExperienceInput";
 import EducationInput from "../components/EducationInput";
@@ -106,8 +110,14 @@ const UserProfile = () => {
     await updateProfile();
     setIsSaving(false);
     setEditMode(false);
+    setShowAddEducation(false);
+    setShowAddWorkExperience(false);
     for (const item of newWorkExperiences) {
       const response = await CreateWorkExperience(item);
+      console.log(response);
+    }
+    for (const item of newEducation) {
+      const response = await CreateEducation(item);
       console.log(response);
     }
   };
@@ -132,6 +142,15 @@ const UserProfile = () => {
     setIsLoaded(true);
   };
 
+  const discardChanges = () => {
+    setEditMode(false);
+    setShowAddEducation(false);
+    setShowAddWorkExperience(false);
+    getProfileData();
+    setNewWorkExperiences([]);
+    setNewEducation([]);
+  };
+
   useEffect(() => {
     getProfileData();
     getDegrees();
@@ -140,10 +159,6 @@ const UserProfile = () => {
       setIsCurrentUserProfile(true);
     }
   }, []);
-
-  useEffect(() => {
-    console.log(newEducation);
-  }, [newEducation]);
 
   return (
     <div className="md:flex justify-center">
@@ -188,7 +203,9 @@ const UserProfile = () => {
             {editMode && (
               <p
                 className="text-center text-red-500 cursor-pointer"
-                onClick={() => {}}
+                onClick={() => {
+                  discardChanges();
+                }}
               >
                 Discard Changes
               </p>

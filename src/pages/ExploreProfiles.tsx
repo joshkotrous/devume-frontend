@@ -45,26 +45,6 @@ const ExploreProfiles = () => {
     const { name, value } = event.target;
     if (name === "search") {
       setSearchQuery(value);
-      if (searchQuery != "" && searchQuery != null && searchQuery != " ") {
-        const filtered = profiles?.filter(
-          (item) =>
-            item.user.username
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            item.user.first_name
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            item.user.last_name
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            (item.user.first_name + " " + item.user.last_name)
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        );
-        setFilteredData(filtered);
-      } else {
-        setFilteredData(profiles);
-      }
     }
   };
   const getProfiles = async () => {
@@ -81,6 +61,29 @@ const ExploreProfiles = () => {
   useEffect(() => {
     getProfiles();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery != "" && searchQuery != null && searchQuery != " ") {
+      const filtered = profiles?.filter(
+        (item) =>
+          item.user.username
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          item.user.first_name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          item.user.last_name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          (item.user.first_name + " " + item.user.last_name)
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(profiles);
+    }
+  }, [searchQuery]);
   return (
     <>
       <div className="w-screen mb-4 overflow-auto">

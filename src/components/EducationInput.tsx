@@ -128,6 +128,7 @@ const EducationInput: React.FC<EducationInputProps> = ({
           setField("");
           setDegree("");
           setDescription("");
+          setDegree("");
         }}
       >
         Save
