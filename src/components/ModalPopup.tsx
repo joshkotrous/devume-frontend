@@ -4,11 +4,15 @@ import { motion } from "framer-motion";
 interface ModalPopupProps {
   deleteFunction: () => void;
   cancelFunction: () => void;
+  message: string;
+  deleteText: string;
 }
 
 const ModalPopup: React.FC<ModalPopupProps> = ({
   deleteFunction,
   cancelFunction,
+  deleteText,
+  message,
 }) => {
   return (
     <motion.div
@@ -20,7 +24,7 @@ const ModalPopup: React.FC<ModalPopupProps> = ({
     >
       <Card className="w-1/3 h-1/4 flex text-center justify-center items-center">
         <CardBody className="w-1/2 flex items-center justify-center text-center gap-4">
-          Are you sure you want to delete this experience?
+          {message}
           <div className="flex items-center gap-4">
             <div
               className="cursor-pointer"
@@ -36,7 +40,7 @@ const ModalPopup: React.FC<ModalPopupProps> = ({
                 deleteFunction();
               }}
             >
-              Delete
+              {deleteText}
             </Button>
           </div>
         </CardBody>

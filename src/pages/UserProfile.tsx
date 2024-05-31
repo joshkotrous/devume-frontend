@@ -1,13 +1,5 @@
 import { useParams } from "react-router-dom";
-import {
-  Button,
-  Input,
-  DatePicker,
-  Textarea,
-  Autocomplete,
-  AutocompleteSection,
-  AutocompleteItem,
-} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import {
   GetProfile,
   UpdateProfile,
@@ -35,7 +27,7 @@ import {
 import { UpdateUser, UserData } from "../hooks/Users";
 import WorkExperienceInput from "../components/WorkExperienceInput";
 import EducationInput from "../components/EducationInput";
-
+import ModalPopup from "../components/ModalPopup";
 const UserProfile = () => {
   const { uuid } = useParams();
   const [profileData, setProfileData] = useState<ProfileData>();
@@ -64,7 +56,7 @@ const UserProfile = () => {
     WorkExperienceData[]
   >([]);
   const [newEducation, setNewEducation] = useState<EducationData[]>([]);
-
+  const [showModal, setShowModal] = useState<boolean>(false);
   const getDegrees = async () => {
     const response = await GetDegrees();
     setDegrees(response);
@@ -111,8 +103,7 @@ const UserProfile = () => {
     setIsSaving(true);
     await updateUser();
     await updateProfile();
-    setIsSaving(false);
-    setEditMode(false);
+
     setShowAddEducation(false);
     setShowAddWorkExperience(false);
     for (const item of newWorkExperiences) {
@@ -123,6 +114,11 @@ const UserProfile = () => {
       const response = await CreateEducation(item);
       console.log(response);
     }
+    getProfileData();
+    setNewWorkExperiences([]);
+    setNewEducation([]);
+    setIsSaving(false);
+    setEditMode(false);
   };
 
   const getProfileData = async () => {
@@ -191,6 +187,19 @@ const UserProfile = () => {
 
   return (
     <div className="md:flex justify-center">
+      <AnimatePresence>
+        {showModal && (
+          <ModalPopup
+            message="Are you sure you want to discard changes?"
+            deleteText="Discard Changes"
+            deleteFunction={() => {
+              discardChanges();
+              setShowModal(false);
+            }}
+            cancelFunction={() => setShowModal(false)}
+          />
+        )}
+      </AnimatePresence>
       <div className="md:w-1/4 mr-4 space-y-2 w-full overflow-auto">
         <ProfileCard
           firstName={firstName}
@@ -233,7 +242,7 @@ const UserProfile = () => {
               <p
                 className="text-center text-red-500 cursor-pointer"
                 onClick={() => {
-                  discardChanges();
+                  setShowModal(true);
                 }}
               >
                 Discard Changes

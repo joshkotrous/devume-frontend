@@ -96,6 +96,8 @@ const Experience: React.FC<ExperienceProps> = ({
       <AnimatePresence>
         {showModal && (
           <ModalPopup
+            message="Are you sure you want to delete this experience?"
+            deleteText="Delete"
             deleteFunction={() => {
               deleteExperience();
               setShowModal(false);
