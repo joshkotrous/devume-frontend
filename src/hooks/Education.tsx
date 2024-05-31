@@ -49,3 +49,21 @@ export async function CreateEducation(data: EducationData) {
     }
   }
 }
+
+export async function DeleteEducation(id: number) {
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + Cookies.get("token"),
+  };
+  try {
+    const response = await axios.delete(
+      import.meta.env.VITE_REACT_APP_API_BASE_URL + `/education/${id}/delete`,
+      { headers: headers }
+    );
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.log(error);
+    }
+  }
+}

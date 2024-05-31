@@ -22,6 +22,7 @@ import {
   GetWorkExperience,
   WorkExperienceData,
   CreateWorkExperience,
+  DeleteWorkExperience,
 } from "../hooks/WorkExperience";
 import { motion, AnimatePresence } from "framer-motion";
 import { GetDegrees } from "../hooks/Degress";
@@ -29,10 +30,12 @@ import {
   GetEducation,
   CreateEducation,
   EducationData,
+  DeleteEducation,
 } from "../hooks/Education";
 import { UpdateUser, UserData } from "../hooks/Users";
 import WorkExperienceInput from "../components/WorkExperienceInput";
 import EducationInput from "../components/EducationInput";
+
 const UserProfile = () => {
   const { uuid } = useParams();
   const [profileData, setProfileData] = useState<ProfileData>();
@@ -140,6 +143,32 @@ const UserProfile = () => {
     const educationResponse = await GetEducation(String(uuid));
     setEducationData(educationResponse);
     setIsLoaded(true);
+  };
+
+  const deleteEducation = async (experienceId: number, arrayIndex: number) => {
+    const response = await DeleteEducation(experienceId);
+    const array = educationData?.splice(arrayIndex + 1, 1);
+    setEducationData(array);
+  };
+
+  const deleteNewEducation = (arrayIndex: number) => {
+    const array = newEducation?.splice(arrayIndex + 1, 1);
+    setNewEducation(array);
+  };
+
+  const deleteWorkExperience = async (
+    experienceId: number,
+    arrayIndex: number
+  ) => {
+    const response = await DeleteWorkExperience(experienceId);
+    const array = workExperienceData?.splice(arrayIndex + 1, 1);
+    setWorkExperienceData(array);
+    console.log(response);
+  };
+
+  const deleteNewWorkExperience = (arrayIndex: number) => {
+    const array = newWorkExperiences?.splice(arrayIndex + 1, 1);
+    setNewWorkExperiences(array);
   };
 
   const discardChanges = () => {
@@ -254,9 +283,13 @@ const UserProfile = () => {
           </AnimatePresence>
 
           {workExperienceData &&
-            [...workExperienceData, ...newWorkExperiences].map(
+            workExperienceData.map(
               (item: WorkExperienceData, index: number) => (
                 <Experience
+                  deleteExperience={() => {
+                    deleteWorkExperience(item.id!, index);
+                  }}
+                  editMode={editMode}
                   organization={item.company}
                   positions={[
                     {
@@ -267,6 +300,29 @@ const UserProfile = () => {
                     },
                   ]}
                   key={index}
+                  id={item.id}
+                />
+              )
+            )}
+          {newWorkExperiences &&
+            newWorkExperiences.map(
+              (item: WorkExperienceData, index: number) => (
+                <Experience
+                  deleteExperience={() => {
+                    deleteNewWorkExperience(index);
+                  }}
+                  editMode={editMode}
+                  organization={item.company}
+                  positions={[
+                    {
+                      job_title: item.job_title,
+                      description: item.description,
+                      start_date: item.start_date,
+                      end_date: item.end_date,
+                    },
+                  ]}
+                  key={index}
+                  id={item.id}
                 />
               )
             )}
@@ -310,20 +366,37 @@ const UserProfile = () => {
             )}
           </AnimatePresence>
           {educationData &&
-            [...educationData, ...newEducation].map(
-              (item: EducationData, index: number) => (
-                <Experience
-                  organization={item.school_name}
-                  positions={[
-                    {
-                      job_title: item.field_of_study,
-                      description: item.degree,
-                    },
-                  ]}
-                  key={index}
-                />
-              )
-            )}
+            educationData.map((item: EducationData, index: number) => (
+              <Experience
+                deleteExperience={() => deleteEducation(item.id!, index)}
+                editMode={editMode}
+                organization={item.school_name}
+                positions={[
+                  {
+                    job_title: item.field_of_study,
+                    description: item.degree,
+                  },
+                ]}
+                key={index}
+                id={item.id}
+              />
+            ))}
+          {newEducation &&
+            newEducation.map((item: EducationData, index: number) => (
+              <Experience
+                deleteExperience={() => deleteNewEducation(index)}
+                editMode={editMode}
+                organization={item.school_name}
+                positions={[
+                  {
+                    job_title: item.field_of_study,
+                    description: item.degree,
+                  },
+                ]}
+                key={index}
+                id={item.id}
+              />
+            ))}
         </ProfileSection>
       </div>
     </div>
