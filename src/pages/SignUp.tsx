@@ -11,8 +11,14 @@ import { CreateUser } from "../hooks/Users.tsx";
 import { useNavigate } from "react-router-dom";
 import { CreateProfile } from "../hooks/Profiles.tsx";
 import { UserLogin } from "../hooks/Auth.tsx";
+import { motion } from "framer-motion";
+import JSConfetti from "js-confetti";
 
-const SignUp = () => {
+interface SignUpProps {
+  setIsAuthenticated: React.Dispatch<boolean>;
+}
+
+const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -21,6 +27,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigateTo = useNavigate();
+  const jsConfetti = new JSConfetti();
 
   const handleKeyPress = (event: any) => {
     if (event.keyCode === 13) {
@@ -57,7 +64,14 @@ const SignUp = () => {
         password
       );
       await UserLogin(username, password);
-      await CreateProfile();
+      const profile = await CreateProfile();
+      localStorage.setItem("profileId", profile.uuid);
+      setIsAuthenticated(true);
+      await jsConfetti.addConfetti({
+        confettiRadius: 6,
+        confettiNumber: 500,
+      });
+
       navigateTo("/");
     } catch (error: any) {
       if ("username" in error.response.data) {
@@ -69,8 +83,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-[90vh] flex items-center justify-center">
-      <div className="w-1/2 max-w-[400px] text-center flex-col items-center">
+    <div className="h-[90vh] flex items-center justify-center w-[300px]">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+        className="w-full text-center flex-col items-center"
+      >
         <Card className="py-4 h-fit">
           <CardHeader className="pt-2 px-4 flex-col items-center">
             <h2 className="font-bold text-large">Sign Up</h2>
@@ -149,7 +168,7 @@ const SignUp = () => {
         ) : (
           <p className="py-4">{errorMessage}</p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

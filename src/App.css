@@ -1,8 +1,17 @@
-
 #root {
   height: 100%;
   width: 100%;
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
   overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
