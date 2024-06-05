@@ -22,8 +22,8 @@ const ModalPopup: React.FC<ModalPopupProps> = ({
       transition={{ duration: 0.15 }}
       className="fixed w-screen h-screen z-[60] flex justify-center items-center top-0 left-0 bg-black/50"
     >
-      <Card className="w-1/3 h-1/4 flex text-center justify-center items-center">
-        <CardBody className="w-1/2 flex items-center justify-center text-center gap-4">
+      <Card className=" max-w-fit h-1/4 flex text-center justify-center items-center px-4">
+        <CardBody className="w-full max-w-1/2 flex items-center justify-center text-center gap-4">
           {message}
           <div className="flex items-center gap-4">
             <div

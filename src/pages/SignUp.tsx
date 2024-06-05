@@ -88,7 +88,7 @@ const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.25 }}
-        className="w-full text-center flex-col items-center"
+        className="transform-gpu w-full text-center flex-col items-center"
       >
         <Card className="py-4 h-fit">
           <CardHeader className="pt-2 px-4 flex-col items-center">
@@ -114,6 +114,7 @@ const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
               onChange={handleChange}
             />
             <Input
+              autoComplete="off"
               type="username"
               variant="bordered"
               label="Username"
@@ -136,11 +137,11 @@ const SignUp: React.FC<SignUpProps> = ({ setIsAuthenticated }) => {
               label="Password"
               variant="bordered"
               placeholder="Enter your password"
-              type={"password"}
+              type="password"
               name="password"
               value={password}
               onChange={handleChange}
-              onKeyDown={handleKeyPress}
+              // onKeyDown={handleKeyPress}
             />
             <Button
               className="mt-4"
